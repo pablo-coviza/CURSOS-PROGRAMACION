@@ -21,6 +21,7 @@ const agregarCurso = (e) => {
     // Verifica si el elemento clicado contiene la clase 'agregar-carro'
     e.target.classList.contains('agregar-carro') ? agregarAlCarro(cursoSeleccionado) : null;
 
+    console.log(productosCarro);
 }
 
 const getDatosCursos = (c) => {
@@ -33,6 +34,13 @@ const getDatosCursos = (c) => {
     };
 };
 
+const limpiarCarro = () => {
+    // console.log(contenidoCarro.firstChild);
+    while (contenidoCarro.firstChild) {
+        contenidoCarro.removeChild(contenidoCarro.firstChild);
+    }
+};
+
 const agregarAlCarro = (curso) => {
 
     // Evita agregar duplicados
@@ -40,7 +48,8 @@ const agregarAlCarro = (curso) => {
         productosCarro.push(curso);
 
         // Limpia el tbody para evitar duplicados visuales
-        contenidoCarro.innerHTML = '';
+        limpiarCarro();
+        // contenidoCarro.innerHTML = '';
 
         productosCarro.forEach(element => {
 
@@ -48,9 +57,9 @@ const agregarAlCarro = (curso) => {
 
             filaTabla.innerHTML = `
             <td></td>
-            <td>${element.titulo}</td>
-            <td>${element.precio}</td>
-            <td>${element.cantidad}</td>
+            <td style="text-align: center; font-size: 0.8em; font-family: 'Cascadia Code', monospace">${element.titulo}</td>
+            <td style="text-align: center;">${element.precio}</td>
+            <td style="text-align: center;">${element.cantidad}</td>
             `;
 
             const imagen = document.createElement('img');
@@ -68,6 +77,11 @@ const agregarAlCarro = (curso) => {
 }
 
 listaCursos.addEventListener('click', agregarCurso);
+
+vaciarCarro.addEventListener('click', () => {
+    productosCarro = [];
+    limpiarCarro();
+});
 
 
 
