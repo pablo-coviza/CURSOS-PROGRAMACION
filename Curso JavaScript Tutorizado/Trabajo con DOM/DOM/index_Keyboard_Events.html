@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Viajes Píldoras</title>
+    <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.0/normalize.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        // Eventos del keyboard
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const search = document.querySelector(".busqueda");
+
+            search.addEventListener("keyup", (e)=> {
+
+                console.log(e.target.value);
+
+                let value = search.value;
+
+                if(value === "Hola") {
+
+                    alert("Acabas de escribir la palabra clave. \n Enhorabuena!");
+
+                } else {
+                    console.log("Sigue buscando...");
+                }
+
+                search.addEventListener("copy", ()=> {
+                    console.log("Copiado...");
+                })
+
+                search.addEventListener("cut", ()=> {
+                    console.log("Cortado...");
+                })
+
+                search.addEventListener("paste", ()=> {
+                    console.log("Pegado...");
+                })
+                // Cuando sales y quieres validar lo rellenado
+                search.addEventListener("blur", ()=> {
+                    console.log("Saliendo...");
+                })
+                // Detecta toda accion sobre el cuadro de busqueda excepto el blur.
+                search.addEventListener("input", ()=> {
+                    console.log("Todo...");
+                })
+            });
+        });
+    </script>
+
+</head>
+
+<body>
+
+    <div class="hero">
+        <header class="header contenedor">
+            <div class="logo">
+                <img src="img/logo.png">
+            </div>
+            <nav class="navegacion">
+                <a href="#">Alojamientos top</a>
+                <a href="#">Ayuda</a>
+                <a href="#">Registro</a>
+                <a href="#">Iniciar Sesión</a>
+            </nav>
+        </header>
+
+        <div class="contenido-hero contenedor">
+            <h1>Encuentra <span> alojamiento </span>para tu próxima escapada</h1>
+
+            <form action="/buscador" method="POST" class="formulario formulario-buscar" id="formulario">
+                <input type="text" name="busqueda" class="busqueda" placeholder="Dubai, Sidney, Nueva York, Bali">
+                <input name="btn-submit" type="submit" id="btn-submit" value="Buscar">
+            </form>
+        </div>
+    </div> <!--.hero-->
+
+    <main class="contenido contenedor">
+        <section class="hacer">
+            <h2>Que Hacer</h2>
+            <div class="contenedor-cards">
+                <div class="card">
+                    <img src="img/hacer1.jpg" id="playa">
+                    <div class="info">
+                        <p class="categoria concierto">PLAYAS</p>
+                        <p class="titulo">Mejores playas 2022</p>
+                        <p class="precio">A partir de 500 €</p>
+                    </div>
+                </div> <!--.card-->
+                <div class="card">
+                    <img src="img/hacer2.jpg">
+                    <div class="info">
+                        <p class="categoria concierto">MONATAÑA</p>
+                        <p class="titulo">Paisajes increibles</p>
+                        <p class="precio">A partir de 750 €</p>
+                    </div>
+                    <input type="button" value="Eliminar" onclick="createElemDom()"></button>
+                </div> <!--.card-->
+                <div class="card">
+                    <img src="img/hacer3.jpg">
+                    <div class="info">
+                        <p class="categoria clase">TURISMO CULTURAL</p>
+                        <p class="titulo">Museos y lugares emblemáticos</p>
+                        <p class="precio">A partir de 850 €</p>
+                    </div>
+                </div> <!--.card-->
+                <div class="card">
+                    <img src="img/hacer4.jpg">
+                    <div class="info">
+                        <p class="categoria paseo">TURISMO DEPORTIVO</p>
+                        <p class="titulo">Manteniendo la forma</p>
+                        <p class="precio">A partir de 650 €</p>
+                    </div>
+                </div> <!--.card-->
+            </div> <!--.columnas4 cuadros-->
+        </section>
+
+
+        <section class="hacer">
+            <h2 class="mi-viaje-plus">Con viajes Píldoras</h2>
+            <div class="contenedor-cards premium">
+                <div class="info">
+                    <h3>Los mejores alojamientos siempre</h3>
+                    <a href="#" class="boton btn-mi-viaje">Explorar alojamientos </a>
+                </div>
+            </div> <!--.columnas4 cuadros-->
+        </section>
+
+        <section class="alojamiento">
+            <h2>Alojamientos</h2>
+            <div class="contenedor-cards">
+                <div class="card">
+                    <img src="img/alojamiento1.jpg">
+                    <div class="info">
+                        <p class="categoria alojamiento">CABAÑAS IDÍLICAS</p>
+                        <p class="titulo">Cabaña de madera completa con todos los servicios</p>
+                        <p class="precio">1.200 € por noche</p>
+                    </div>
+                </div> <!--.card-->
+                <div class="card">
+                    <img src="img/alojamiento2.jpg">
+                    <div class="info">
+                        <p class="categoria alojamiento">DORMITORIOS DE ENSUEÑO</p>
+                        <p class="titulo">1 dormitorio con 2 camas</p>
+                        <p class="precio">2.200 € por noche</p>
+                    </div>
+                </div> <!--.card-->
+                <div class="card">
+                    <img src="img/alojamiento3.jpg">
+                    <div class="info">
+                        <p class="categoria alojamiento">DORMITORIOS CAMA KING SIZE</p>
+                        <p class="titulo">Dormitorios con todos los detalles</p>
+                        <p class="precio">2.500 € por noche</p>
+                    </div>
+                </div> <!--.card-->
+            </div> <!--.columnas4 cuadros-->
+        </section>
+
+        <section class="destinos">
+            <h2>Destinos Populares</h2>
+            <div class="contenedor-cards">
+                <div class="card">
+                    <img src="img/populares1.jpg">
+                    <div class="info">
+                        <p class="titulo">Nueva York</p>
+                    </div>
+                </div> <!--.card-->
+                <div class="card">
+                    <img src="img/populares2.jpg">
+                    <div class="info">
+                        <p class="titulo">París</p>
+                    </div>
+                </div> <!--.card-->
+                <div class="card">
+                    <img src="img/populares3.jpg">
+                    <div class="info">
+                        <p class="titulo">Santorini</p>
+                    </div>
+                </div> <!--.card-->
+                <div class="card">
+                    <img src="img/populares4.jpg">
+                    <div class="info">
+                        <p class="titulo">Sidney</p>
+                    </div>
+                </div> <!--.card-->
+            </div> <!--.columnas4 cuadros-->
+        </section>
+
+        <section class="hacer">
+            <h2>Que Hacer en New York</h2>
+            <div class="contenedor-cards">
+                <div class="card">
+                    <img src="img/newyork1.jpg">
+                    <div class="info">
+                        <p class="categoria clase">Manhattan</p>
+                        <p class="titulo">Visita a Manhattan</p>
+                        <p class="precio">150 € por persona</p>
+                    </div>
+                </div> <!--.card-->
+                <div class="card">
+                    <img src="img/newyork2.jpg">
+                    <div class="info">
+                        <p class="categoria concierto">TIMES SQUARE</p>
+                        <p class="titulo">Cine en Times Square</p>
+                        <p class="precio">50 € por persona</p>
+                    </div>
+                </div> <!--.card-->
+                <div class="card">
+                    <img src="img/newyork3.jpg">
+                    <div class="info">
+                        <p class="categoria clase">PUENTE DE BROOKLIN</p>
+                        <p class="titulo">Visita al Puente de Brooklin</p>
+                        <p class="precio">50 € por persona</p>
+                    </div>
+                </div> <!--.card-->
+                <div class="card">
+                    <img src="img/newyork4.jpg">
+                    <div class="info">
+                        <p class="categoria paseo">ESTAUTA DE LA LIBERTAD</p>
+                        <p class="titulo">Visita a la estaua de la libertad</p>
+                        <p class="precio">100 € por persona</p>
+                    </div>
+                </div> <!--.card-->
+            </div> <!--.columnas4 cuadros-->
+        </section>
+
+    </main>
+
+
+
+    <footer id="footer" class="footer">
+
+    </footer>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sets</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        // El Set no es capaz de duplicar/repetir elementos
+        /* const nombres = new Set();
+        nombres.add("Pablo");
+        nombres.add("Maria");
+        nombres.add("Juan");
+        nombres.add("Maria");
+
+        nombres.forEach( elNombre => { // Recorro el Set con forEach()
+            console.log(elNombre);
+        })
+
+        console.log(nombres.size); // Devuelve el numero de elementos del Set
+        console.log(nombres.has("Pablo")); // Devuelve booleando
+        nombres.delete("Maria"); // Elimina elemento especificado
+        nombres.clear(); // Elimina todo el contenido del Set
+        console.log(nombres); */
+
+        // Utilizamos el Set para eliminar los duplicados creando un Set a partir de un Array
+        const nombres2 = ["Juan", "Pablo", "Pablo", "Juan", "Maria", "Eugenio"]; // Creamos un Array
+        const nombresSinDuplicar = new Set(nombres2); // Creando el Set ya estamos eliminando todos los duplicados
+
+        console.log(nombresSinDuplicar);
+
+    </script>
+
+</body>
+
+</html>

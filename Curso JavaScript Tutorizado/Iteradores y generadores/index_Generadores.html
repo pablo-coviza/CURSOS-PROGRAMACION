@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+
+        // Generador
+        function* contador() {
+
+            let i = 0;
+            while(true) {
+
+                yield i;
+
+                i++;
+
+            }
+
+        }
+
+        // Iterador para poder ejecutar la funcion Generador
+
+        const iterator = contador();
+
+        /* console.log(iterator.next().value);
+
+        console.log(iterator.next().value);
+
+        console.log(iterator.next().value); */
+
+        // Iterar hasta 20
+        let contadorLimite = 20;
+
+        for (const valor of iterator) {
+
+            console.log(valor);
+
+            contadorLimite --;
+
+            if(contadorLimite === 0) break;
+        }
+
+    </script>
+
+</body>
+
+</html>

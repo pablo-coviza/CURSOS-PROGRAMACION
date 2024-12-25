@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script type="text/javascript">
+
+        let edad = prompt("¿ Cuántos años tienes ?");
+
+        
+        if(edad >= 18){
+
+            document.write('Eres mayor de edad' + '<br>');
+            let importe = prompt(" Dime cuanto tienes ahorrado...");
+
+            if(importe >= 150){
+
+                document.write("Tienes el dinero suficiente como para sacarte el carnet de conducir" + '<br>');
+
+            }else{
+
+                document.write('Pero no puedes obtener el carnet de conducir porque no tienes suficiente dinero ahorrado' + '<br>');
+
+            }
+
+        }else {
+
+            let diferencia = 18 - edad;
+
+            document.write(`Todavia no tienes la edad necesaria para obtener el carnet de conducir <br>`);
+            document.write(`Te faltan ${diferencia} años para poder obtener el carnet de conducir <br>`);
+            document.write(`Vuelve dentro de ${diferencia} años <br>`);
+
+        }
+
+        document.write('Acabamos de evaluar la edad del sujeto');
+
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function* rango(desde, hasta){
+            for(let i = desde; i <= hasta; i ++) {
+                yield i;
+            }
+        }
+
+        let numero = rango(5, 15);
+        document.write(numero.next().value + "</br>");
+
+        document.write(numero.next().value + "</br>");
+
+        document.write(numero.next().value + "</br>");
+    </script>
+    
+</body>
+</html>

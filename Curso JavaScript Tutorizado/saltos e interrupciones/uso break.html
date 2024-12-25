@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body style="font-size: 2em;">
+
+    <script type="text/javascript">
+        //Uso break I
+        /*let mail = prompt("Introduce el correo, por favor");
+        let arroba = false;
+
+        for (let i = 0; i < mail.length; i++) {
+            if (mail[i] == "@") {
+                arroba = true;
+                break; // paramos la ejecucion porque ya hemos encontrado la arroba.
+            }
+        }
+
+        if (arroba) {
+            document.write("mail correcto");
+        } else {
+            document.write("mail incorrecto");
+        }*/
+
+        //Uso break II
+        /* let naciones = [];
+        let num = 0;
+
+        do {
+            num += 1;
+            naciones[num] = prompt("Introduce nombres de naciones, por favor. \nPulsa Cancelar para salir.");
+        } while(naciones[num] != null)
+        
+        for(let i = 0; i < naciones.length; i++) {
+            
+            if(naciones[i] == "España" || naciones[i] == "españa" || naciones[i] == "ESPAÑA") {
+                document.write("España encontrada");
+                break;
+            }
+        } */
+
+        //Uso break III
+        let ciudades = [["Bogota", "Medellin", "Cali"], ["Barcelona", "Madrid", "Malaga"], ["Roma", "Milan", "Venecia"]];
+
+        bucleprincipal:for(let i = 0; i < 3; i++) { //label tag 
+            for(let j = 0; j < 3; j++) {
+                if(ciudades[i][j] == "Madrid") {
+                    break bucleprincipal;
+                }
+                document.write(ciudades[i][j] + "</br>");
+            }
+        }
+        document.write("Oleeee. Madrid encontrada. Por tanto, me salgo del bucle for 'padre' </br>");
+    </script>
+
+
+</body>
+
+</html>
