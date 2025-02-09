@@ -40,7 +40,7 @@ ul {
     background-image:url(../img/curso2.jpg);
     height: 375px;
 	background-position: center -320px;
-   
+
 }
 #encabezado {
     margin: 30px 0;
@@ -157,7 +157,7 @@ ul {
     padding: 10px 20px;
 }
 
-.info-card p, 
+.info-card p,
 .card h4 {
     margin-bottom: 5px;
 }
@@ -175,10 +175,42 @@ ul {
 .footer {
     margin-top: 40px;
     border-top:1px solid #aaa;;
-    padding-top: 40px;   
+    padding-top: 40px;
 }
 .footer .menu a{
 display: block;
 margin-bottom: 10px;
 text-decoration: none;
 }
+.cantidad-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px; /* Espacio entre los botones y el texto */
+}
+
+.cantidad-control button {
+    background-color: #dfd9d9; /* Color de fondo */
+    color: rgb(0, 0, 0); /* Color del texto */
+    border: none; /* Sin bordes */
+    border-radius: 5px; /* Bordes redondeados */
+    width: 25px; /* Ancho fijo */
+    height: 25px; /* Alto fijo */
+    font-size: 1rem; /* Tamaño del texto */
+    cursor: pointer; /* Icono de puntero al pasar sobre el botón */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cantidad-control button:hover {
+    background-color: #000000; /* Color más oscuro al pasar el mouse */
+    color: rgb(255, 255, 255); /* Color del texto */
+}
+
+.cantidad-texto {
+    font-size: 16px; /* Tamaño de texto */
+    width: 30px; /* Ancho fijo para alineación */
+    text-align: center; /* Texto centrado */
+}
+
