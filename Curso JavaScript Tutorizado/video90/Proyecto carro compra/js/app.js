@@ -38,6 +38,7 @@ const agregarCurso = (e) => {
         agregarAlCarro(cursoSeleccionado);
         console.log(productosCarro);
     }
+
 };
 
 /**
@@ -119,7 +120,13 @@ const renderizarCarro = () => {
             <td></td>
             <td style="text-align: center; font-size: 0.8em; font-family: 'Cascadia Code', monospace">${element.titulo}</td>
             <td style="text-align: center;">${element.precio}</td>
-            <td style="text-align: center;">${element.cantidad}</td>
+            <td style="text-align: center;">
+                <div class="cantidad-control">
+                    <button class="disminuir-cantidad" data-id="${element.idCurso}">-</button>
+                    <span class="cantidad-texto" font-family: 'Cascadia Code', monospace">${element.cantidad}</span>
+                    <button class="aumentar-cantidad" data-id="${element.idCurso}">+</button>
+                </div>
+            </td>
             <td><a href="#" class="borrar-curso" data-id="${element.idCurso}">X</a></td>
         `;
 
@@ -131,7 +138,12 @@ const renderizarCarro = () => {
         filaTabla.children[0].appendChild(imagen);
 
         contenidoCarro.appendChild(filaTabla);
+
     });
+
+    // Actualizar el total después de renderizar el carrito
+    mostrarTotal();
+
 };
 
 /**
@@ -148,19 +160,61 @@ const renderizarCarro = () => {
 const eliminarCurso = (e) => {
     if (e.target.classList.contains("borrar-curso")) {
         const cursoId = e.target.getAttribute("data-id");
-        const curso = productosCarro.find(curso => curso.idCurso === cursoId);
-
-        if (curso) {
-            if (curso.cantidad === 1) {
-                productosCarro = productosCarro.filter(curso => curso.idCurso !== cursoId);
-            } else {
-                curso.cantidad--;
-            }
-        }
+        productosCarro = productosCarro.filter(curso => curso.idCurso !== cursoId);
 
         renderizarCarro();
     }
 };
+
+const calcularTotal = () => {
+
+    let total = 0;
+
+    productosCarro.forEach(calculo => {
+
+        total += parseFloat(calculo.precio) * calculo.cantidad;
+
+    });
+
+    return total;
+
+}
+
+const mostrarTotal = () => {
+
+    const cantidadTotal = document.querySelector('#total-carro span');
+
+    cantidadTotal.textContent = calcularTotal();
+
+}
+
+const manejarCantidad = (e) => {
+    if (e.target.classList.contains("aumentar-cantidad")) {
+        // Lógica para aumentar la cantidad
+        const cursoId = e.target.getAttribute("data-id");
+        const curso = productosCarro.find(curso => curso.idCurso === cursoId);
+
+        if (curso) {
+            curso.cantidad++; // Simplemente incrementamos la cantidad
+        }
+
+    } else if (e.target.classList.contains("disminuir-cantidad")) {
+        // Lógica para disminuir la cantidad
+        const cursoId = e.target.getAttribute("data-id");
+        const curso = productosCarro.find(curso => curso.idCurso === cursoId);
+
+        if (curso) {
+            if (curso.cantidad > 1) {
+                curso.cantidad--; // Reducimos la cantidad si es mayor a 1
+            } else {
+                productosCarro = productosCarro.filter(curso => curso.idCurso !== cursoId); // Eliminamos el curso si la cantidad es 1
+            }
+        }
+    }
+
+    renderizarCarro(); // Actualizamos el carrito tras cualquier cambio
+};
+
 
 // ====================================
 // EVENT LISTENERS
@@ -173,7 +227,14 @@ listaCursos.addEventListener('click', agregarCurso);
 vaciarCarro.addEventListener('click', () => {
     productosCarro = [];
     limpiarCarro();
+    mostrarTotal();
 });
 
 // Escucha clicks en el carrito para eliminar cursos
-carro.addEventListener('click', eliminarCurso);
+carro.addEventListener('click', (e) => {
+    if (e.target.classList.contains("borrar-curso")) {
+        eliminarCurso(e);
+    } else if (e.target.classList.contains("aumentar-cantidad") || e.target.classList.contains("disminuir-cantidad")) {
+        manejarCantidad(e);
+    }
+});
