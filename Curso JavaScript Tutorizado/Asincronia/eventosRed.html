@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+
+    <!-- Aqui iria el DOM menus, imagenes, formularios... -->
+    <script type="text/javascript">
+
+        function getVersionActual(versionCallback) {  // Argumento funcion callback
+
+
+            // Creo una instancia
+            let request = new XMLHttpRequest();
+
+            // Abro la conexion con el servidor remoto
+            request.open('GET', 'https://jsonplaceholder.typicode.com/posts/1');
+
+            // Conecto con el servidor remoto
+            request.send();
+
+            request.onload = function () {
+
+                if (request.status == 200) {
+                    let versionActual = parseFloat(request.responseText);
+
+                    versionCallback(null, versionActual);
+
+                } else {
+                    versionCallback(request.statusText, null);
+                }
+            };
+
+            request.onerror = request.ontimeout = function (e) { // Mismo codigo para ambos tipos de error
+
+                versionCallback(e.type, null);
+
+            };
+
+        }
+
+        function versionCallback(error, version) {
+
+            if (error) {
+                alert('Error al obtener la version');
+            } else {
+                const versionDocumento = 4.5;
+
+                if (version > versionDocumento) {
+
+                    let actualizar = confirm('Nueva version disponible! Version actual: ' + versionDocumento + 'Deseas actualizar?');
+
+                    if (actualizar) {
+                        alert('Actualizando...');
+
+                        // Logica de actualizacion
+
+                    } else {
+                        alert('No se actualizara. Se recomienda actualizar.');
+                    }
+                } else {
+                    alert('Ya estas utilizando la version mas reciente. Version: ' + version);
+                }
+            }
+
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>
