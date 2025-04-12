@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+
+    <!-- Aqui iria el DOM menus, imagenes, formularios... -->
+    <script type="text/javascript">
+
+        const miPromesa = new Promise((resolve, reject) => {
+
+            document.write('Realizando tarea en 2do plano...');
+
+            let docEncontrado = false;
+
+            setTimeout(() => {
+
+                if(docEncontrado) resolve('documento encontrado')
+                else reject('documento NO encontrado')
+
+                //resolve('Operacion exitosa')
+                //reject('La operacion se ha visto interrumpida')
+
+            }, 3000);
+
+        });
+
+        miPromesa.then((mensaje) => {
+
+            document.write(mensaje);
+
+        }).catch((error) => {
+
+            document.write(error);
+
+        }).finally(() => {
+
+            document.write(' Tarea tras promesa');
+
+        });
+
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo sencillo de metaprogramacion</title>
+</head>
+<body>
+    <script>
+
+        const persona = {
+            nombre: "Pablo",
+            edad: 35
+        };
+
+        const proxyPersona = new Proxy(persona, {
+
+            get(target, propiedad){
+                document.writeln(`Accediendo a la propiedad "${propiedad}" <br/>`);
+
+                return target[propiedad];
+
+            },
+
+            set(target, propiedad, valor) {
+
+                document.writeln(`Modificando la propiedad "${propiedad}" a "${valor}" <br/>`);
+
+                target[propiedad] = valor;
+
+                return true; // Confirma ese cambio de la propiedad como OK
+
+            }
+
+        });
+
+        // Accediendo a las propiedades del objeto a traves del Proxy
+
+        document.writeln(proxyPersona.nombre);
+
+        document.writeln("<br/>");
+
+        // Modificamos una propiedad a traves del Proxy
+
+        proxyPersona.edad = 20;
+
+        // Verificamos el cambio realizado
+
+        document.writeln(proxyPersona.edad);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .menu {
+            display: none;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .menu-btn {
+            cursor: pointer;
+        }
+
+        .mostrar {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Boton que el usuario pulsara para actualizar algo -->
+    <button id="confirmaUpdate" class="okay">Confirmar actualizacion</button>
+
+    <!-- Menu desplegable -->
+    <div id="menuBtn" class="menu-btn">Menu</div>
+
+    <!-- Opciones de menu -->
+    <ul id="menu" class="menu">
+        <li>Opcion 1</li>
+        <li>Opcion 2</li>
+        <li>Opcion 3</li>
+    </ul>
+
+    <!-- Temporizador -->
+    <div id="timerDisplay"></div>
+
+    <script type="text/javascript">
+
+        let okay = document.querySelector('#confirmaUpdate.okay');
+        let timerDisplay = document.getElementById('timerDisplay');
+        let menuBtn = document.getElementById('menuBtn');
+        let menu = document.getElementById('menu');
+
+        function aplicaUpdate() {
+            console.log('Actualizacion solicitada');
+            let tiempoTranscurrido = 0;
+            let intervaloId = setInterval(() => {
+                tiempoTranscurrido++;
+                timerDisplay.textContent = `Tiempo transcurrido: ${tiempoTranscurrido}  segundos`
+            }, 1000);
+
+            setTimeout(() => {
+
+                clearInterval(intervaloId);
+                document.write('Actualizacion aplicada exitosamente');
+
+            }, 10000);
+        }
+
+        okay.addEventListener('click', aplicaUpdate);
+
+        // Codigo para plegar y desplegar menu
+        menuBtn.addEventListener('click', () =>{
+            menu.classList.toggle('mostrar');
+        });
+
+    </script>
+
+</body>
+
+</html>

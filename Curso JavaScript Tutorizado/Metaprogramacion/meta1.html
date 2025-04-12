@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h2 {
+        color: #333;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="email"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    input[type="submit"] {
+        background-color: #28a745;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #218838;
+    }
+
+    .error {
+        color: red;
+    }
+    </style>
+
+<body>
+
+    <form id="formulario" action="">
+
+        <h2>Ingrese sus datos</h2>
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Nombre"><br><br>
+        <label for="edad">Edad:</label>
+        <input type="number" id="edad" name="edad" placeholder="Edad"><br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Email"><br><br>
+        <input type="submit" value="Enviar">
+
+        <div id="mensajes" class="error"></div>
+
+    </form>
+
+    <script>
+
+        const usuario = {
+
+            nombre: "",
+            edad: 0,
+            email: ""
+
+        };
+
+        // Proxy para validar datos
+
+        const proxyUsuario = new Proxy(usuario, {
+
+            set(target, propiedad, valor) {
+
+                if (propiedad === "edad") {
+
+                    if (typeof valor !== "number" || valor <= 0 || isNaN(valor)) {
+
+                        document.getElementById("mensajes").innerHTML += `Valor invalido para la edad: ${valor}. Debe ser un numero positivo. <br/>`;
+
+                        return false;
+                    }
+                }
+
+                if (propiedad === "email") {
+
+                    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+                    if (!emailRegex.test(valor)) {
+
+                        document.getElementById("mensajes").innerHTML += `Valor invalido para el email: ${valor}. Debe ser un email valido. <br/>`;
+
+                        return false;
+                    }
+                }
+
+                // Asignacion de valor si pasa la validacion
+
+                /* document.getElementById("mensajes").innerHTML += `Asignando ${valor} a la propiedad ${propiedad} <br/>`;
+
+                target[propiedad] = valor;
+
+                return true;  // Success */
+
+                // Utilizando Reflect para asignar el valor
+                const resultado = Reflect.set(target, propiedad, valor);
+
+                if (resultado) {
+                    document.getElementById("mensajes").innerHTML += `Asignando ${valor} a la propiedad ${propiedad} <br/>`;
+                } else {
+                    document.getElementById("mensajes").innerHTML += `Error al asignar ${valor} a la propiedad ${propiedad} <br/>`;
+                }
+                return resultado;  // Success o Error
+
+            },
+
+            get(target, propiedad) {
+
+                document.getElementById("mensajes").innerHTML += `Leyendo la propiedad ${propiedad} <br/>`;
+
+                //return target[propiedad];
+                return Reflect.get(target, propiedad);  // Utilizando Reflect para obtener el valor
+
+            }
+
+        });
+
+        function validarFormulario() {
+
+            document.getElementById("mensajes").innerHTML = "";  // Limpiar mensajes
+
+            const nombre = document.getElementById("nombre").value;
+            const edad = parseInt(document.getElementById("edad").value);
+            const email = document.getElementById("email").value;
+
+            // Asignacion de valores al proxy
+
+            proxyUsuario.nombre = nombre;
+            proxyUsuario.edad = edad;
+            proxyUsuario.email = email;
+
+            // Evitar el envio del formulario
+
+            return false;
+        }
+
+        //document.getElementById("Enviar").addEventListener("click", validarFormulario);
+        document.getElementById("formulario").onsubmit = function() {
+            return validarFormulario();
+        };
+
+        /* // Comprobacion de propiedades
+
+        document.writeln(`<br/>Nombre: ${proxyUsuario.nombre}<br/>`);
+        document.writeln(`<br/>Edad: ${proxyUsuario.edad}<br/>`);
+        document.writeln(`<br/>Email: ${proxyUsuario.email}<br/>`);
+ */
+
+    </script>
+
+</body>
+
+</html>
