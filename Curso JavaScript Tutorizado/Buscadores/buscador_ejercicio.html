@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador</title>
+</head>
+
+<body>
+    <script>
+
+        /*  Esta funcionalidad se llama "Web Components" o Componentes Web. Es una tecnología que permite crear elementos HTML personalizados reutilizables.
+            En tu código específico, estás usando tres características principales de Web Components:
+            1. Custom Elements (mediante `customElements.define()`)
+            2. Shadow DOM (mediante `attachShadow()`)
+            3. Slots (usando elementos `<slot>`)
+            El elemento personalizado que has creado (`casilla-buscador`) es un Custom Element que extiende de HTMLElement. */
+
+        class CasillaBuscador extends HTMLElement {
+            constructor() {
+                super(); // Llama al constructor de HTMLElement
+                this.attachShadow({ mode: 'open' }); // Crea un shadow DOM
+
+                // Crea un contenedor y lo estiliza
+                const contenedor = document.createElement('span');
+                contenedor.style.border = '1px solid black'; // Estilo del contenedor
+                contenedor.style.borderRadius = '5px'; // Bordes redondeados
+                contenedor.style.padding = '5px'; // Espacio interno
+
+                // Crea un input y lo estiliza
+                const input = document.createElement('input');
+                input.style.border = 'none'; // Sin borde
+                input.style.outline = 'none'; // Sin contorno
+                input.style.padding = '5px'; // Espacio interno
+
+                // Crea los slots para la izquierda y derecha
+                const slotIzquierda = document.createElement('slot');
+                slotIzquierda.name = 'izquierda';
+                const slotDerecha = document.createElement('slot');
+                slotDerecha.name = 'derecha';
+
+                // Añade los slots al contenedor
+                contenedor.appendChild(slotIzquierda);
+                contenedor.appendChild(input); // Añade el input al contenedor
+                contenedor.appendChild(slotDerecha);
+                this.shadowRoot.appendChild(contenedor); // Añade el contenedor al shadow DOM
+
+                // Agregar eventos click a los slots
+                this.shadowRoot.addEventListener("slotchange", () => {
+
+                    const izquierda = this.shadowRoot.querySelector('slot[name="izquierda"]');
+                    const derecha = this.shadowRoot.querySelector('slot[name="derecha"]');
+
+                    const leftElement = izquierda.assignedElements();
+                    leftElement.forEach(el => el.style.cursor = "pointer");
+
+                    const rightElement = derecha.assignedElements();
+                    rightElement.forEach(el => el.style.cursor = "pointer");
+
+                    izquierda.addEventListener('click', () => {
+
+                        alert("Buscando...");
+                    });
+
+                    derecha.addEventListener('click', () => {
+
+                        alert("Borrando...");
+                    });
+
+                });
+
+
+            }
+        }
+
+        customElements.define('casilla-buscador', CasillaBuscador); // Registra el nuevo elemento personalizado
+
+    </script>
+
+    <!-- Usa el nuevo elemento personalizado -->
+    <casilla-buscador>
+
+        <span slot="izquierda">&#128269</span>
+
+        <span slot="derecha">&#10060</span>
+
+    </casilla-buscador>
+
+
+</body>
+
+</html>
