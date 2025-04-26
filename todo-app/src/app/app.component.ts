@@ -33,5 +33,6 @@ import { TodoDetailComponent } from './components/todo-detail/todo-detail.compon
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  title = 'todo-app';  // Asegúrate que el título sea exactamente 'todo-app'
   currentYear = new Date().getFullYear();
 }
