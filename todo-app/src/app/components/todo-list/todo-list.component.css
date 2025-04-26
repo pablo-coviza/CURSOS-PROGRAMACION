@@ -1,0 +1,20 @@
+.todo-list {
+    background-color: var(--card-background);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .todo-list h2 {
+    color: var(--text-secondary);
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    padding: 0 16px;
+  }
+
+  .empty-list {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+  }

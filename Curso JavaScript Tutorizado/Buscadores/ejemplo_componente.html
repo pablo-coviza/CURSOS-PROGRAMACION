@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+
+        class MiBoton extends HTMLElement {
+
+            constructor() {
+                super(); // Llama al constructor de HTMLElement
+                this.attachShadow({ mode: 'open' }); // Crea un shadow DOM
+
+                // Crea un botón y lo estiliza
+                const button = document.createElement('button');
+                button.textContent = 'Haz click aqui!';
+                button.style.backgroundColor = 'blue';
+                button.style.color = 'white';
+                button.style.border = 'none';
+                button.style.padding = '10px 20px';
+
+                button.addEventListener('click', () => {
+                    alert('Button clicked!');
+                    console.log('Button clicked!');
+                });
+
+                this.shadowRoot.appendChild(button); // Añade el botón al shadow DOM
+            }
+        }
+
+        // Registra el nuevo elemento personalizado
+        customElements.define('mi-boton', MiBoton);
+
+    </script>
+
+    <mi-boton></mi-boton> <!-- Usa el nuevo elemento personalizado -->
+
+</body>
+</html>
