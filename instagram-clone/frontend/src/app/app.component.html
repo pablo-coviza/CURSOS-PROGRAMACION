@@ -1,0 +1,17 @@
+<app-header></app-header>
+
+<div class="instagram-container">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="text-center mb-4">📸 Instagram Clone</h1>
+    </div>
+  </div>
+
+  <!-- Sección de subida con evento -->
+  <app-upload-photo (photoUploaded)="onPhotoUploaded()"></app-upload-photo>
+
+  <!-- Galería con referencia -->
+  <div class="mt-5">
+    <app-gallery #gallery></app-gallery>
+  </div>
+</div>

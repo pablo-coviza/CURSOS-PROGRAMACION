@@ -1,0 +1,46 @@
+<!-- src/app/components/gallery/gallery.component.html -->
+
+<div class="gallery-container">
+
+  <!-- Título de la galería -->
+  <div class="gallery-header">
+    <h2>
+      <i class="bi bi-grid-3x3-gap me-2"></i>
+      Tu Galería
+    </h2>
+    <button class="btn btn-outline-primary btn-sm" (click)="refreshGallery()">
+      <i class="bi bi-arrow-clockwise me-1"></i>
+      Actualizar
+    </button>
+  </div>
+
+  <!-- Estado de carga -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Cargando fotos...</span>
+    </div>
+    <p class="mt-3 text-muted">Cargando tus fotos...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="alert alert-danger">
+    <i class="bi bi-exclamation-triangle me-2"></i>
+    {{ error }}
+  </div>
+
+  <!-- Sin fotos -->
+  <div *ngIf="!loading && !error && photos.length === 0" class="empty-state">
+    <div class="text-center py-5">
+      <i class="bi bi-images display-1 text-muted"></i>
+      <h3 class="mt-3">No hay fotos aún</h3>
+      <p class="text-muted">¡Sube tu primera foto para empezar!</p>
+    </div>
+  </div>
+
+  <!-- Cambiar la sección de galería -->
+  <div *ngIf="!loading && !error && photos.length > 0" class="photo-grid">
+    <app-photo-card *ngFor="let photo of photos" [photo]="photo" (photoDeleted)="onPhotoDeleted($event)">
+    </app-photo-card>
+  </div>
+
+</div>

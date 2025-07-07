@@ -1,0 +1,114 @@
+/* src/styles.css */
+
+/* Importar Bootstrap */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+/* Variables de colores Instagram */
+:root {
+  --instagram-blue: #0095f6;
+  --instagram-dark-blue: #00376b;
+  --instagram-border: #dbdbdb;
+  --instagram-text: #262626;
+  --instagram-gray: #8e8e8e;
+  --instagram-light-gray: #fafafa;
+  --instagram-red: #ed4956;
+}
+
+/* Estilos globales para Instagram */
+body {
+  background-color: var(--instagram-light-gray);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--instagram-text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Contenedor principal */
+.instagram-container {
+  max-width: 935px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Estilo Instagram para cards */
+.instagram-card {
+  background: white;
+  border: 1px solid var(--instagram-border);
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Header estilo Instagram */
+.instagram-header {
+  background: white;
+  border-bottom: 1px solid var(--instagram-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Botones estilo Instagram */
+.btn-primary {
+  background-color: var(--instagram-blue);
+  border-color: var(--instagram-blue);
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 8px 16px;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--instagram-dark-blue);
+  border-color: var(--instagram-dark-blue);
+  transform: translateY(-1px);
+}
+
+/* Forms estilo Instagram */
+.form-control {
+  border: 1px solid var(--instagram-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  transition: border-color 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: var(--instagram-blue);
+  box-shadow: 0 0 0 0.2rem rgba(0, 149, 246, 0.1);
+}
+
+/* Animaciones suaves */
+* {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--instagram-light-gray);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--instagram-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--instagram-gray);
+}
+
+/* Responsive general */
+@media (max-width: 768px) {
+  .instagram-container {
+    padding: 10px;
+  }
+
+  body {
+    font-size: 13px;
+  }
+}

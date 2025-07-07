@@ -1,60 +1,63 @@
-// 1. IMPORTAR DEPENDENCIAS
+// src/server.js
+
+// 1. CARGAR VARIABLES DE ENTORNO PRIMERO
+require('dotenv').config();
+
+// 2. IMPORTAR DEPENDENCIAS
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 
-// 2. CREAR LA APLICACIÓN EXPRESS
+// 3. IMPORTAR CONFIGURACIÓN Y MODELOS
+const connectDB = require('./config/database');
+const Photo = require('./models/Photo');
+
+// 4. CONECTAR A LA BASE DE DATOS
+connectDB();
+
+// 5. CREAR LA APLICACIÓN EXPRESS
 const app = express();
 
-// 3. CONFIGURAR MULTER PARA SUBIDA DE ARCHIVOS
+// 6. CONFIGURAR MULTER (sin cambios)
 const storage = multer.diskStorage({
-    // Donde guardar los archivos
     destination: function (req, file, cb) {
-        cb(null, 'uploads/'); // Carpeta uploads que creamos
+        cb(null, 'uploads/');
     },
-    // Cómo nombrar los archivos
     filename: function (req, file, cb) {
-        // Crear nombre único: timestamp + nombre original
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
         cb(null, 'foto-' + uniqueSuffix + path.extname(file.originalname));
     }
 });
 
-// Configurar multer con filtros
 const upload = multer({
     storage: storage,
-    // Filtrar solo imágenes
     fileFilter: function (req, file, cb) {
-        // Verificar que sea una imagen
         if (file.mimetype.startsWith('image/')) {
             cb(null, true);
         } else {
             cb(new Error('Solo se permiten archivos de imagen'), false);
         }
     },
-    // Límite de tamaño: 5MB
     limits: {
-        fileSize: 5 * 1024 * 1024 // 5MB en bytes
+        fileSize: 5 * 1024 * 1024 // 5MB
     }
 });
 
-// 4. CONFIGURAR MIDDLEWARES
+// 7. CONFIGURAR MIDDLEWARES
 app.use(cors());
 app.use(express.json());
-
-// NUEVO: Servir archivos estáticos (para ver las fotos)
 app.use('/uploads', express.static('uploads'));
 
-// 5. ARRAY TEMPORAL PARA GUARDAR INFO DE FOTOS
-// (Más adelante esto irá a MongoDB)
-let fotos = [];
+// 8. ELIMINAR EL ARRAY TEMPORAL - ¡Ya no lo necesitamos!
+// let fotos = []; ← COMENTAR O ELIMINAR ESTA LÍNEA
 
-// 6. ENDPOINTS EXISTENTES
+// 9. ENDPOINT DE BIENVENIDA (actualizado)
 app.get('/', (req, res) => {
     res.json({
-        mensaje: '¡Hola Instagram Clone!',
-        estado: 'Servidor funcionando perfectamente',
+        mensaje: '¡Hola Instagram Clone con MongoDB!',
+        estado: 'Servidor funcionando con base de datos',
+        database: 'MongoDB Atlas conectado',
         endpoints: {
             subir_foto: 'POST /api/fotos',
             ver_fotos: 'GET /api/fotos',
@@ -63,8 +66,8 @@ app.get('/', (req, res) => {
     });
 });
 
-// 7. NUEVO ENDPOINT: SUBIR FOTO
-app.post('/api/fotos', upload.single('foto'), (req, res) => {
+// 10. ENDPOINT ACTUALIZADO: SUBIR FOTO CON MONGODB
+app.post('/api/fotos', upload.single('foto'), async (req, res) => {
     try {
         // Verificar que se subió un archivo
         if (!req.file) {
@@ -73,61 +76,152 @@ app.post('/api/fotos', upload.single('foto'), (req, res) => {
             });
         }
 
-        // Crear objeto con info de la foto
-        const nuevaFoto = {
-            id: fotos.length + 1,
+        // Crear nueva foto en MongoDB
+        const nuevaFoto = new Photo({
             nombre: req.file.filename,
             nombreOriginal: req.file.originalname,
             ruta: req.file.path,
-            url: `http://localhost:3000/uploads/${req.file.filename}`,
+            url: `http://localhost:${process.env.PORT || 3000}/uploads/${req.file.filename}`,
             tamaño: req.file.size,
-            fechaSubida: new Date().toISOString(),
             descripcion: req.body.descripcion || 'Sin descripción'
-        };
+        });
 
-        // Agregar al array temporal
-        fotos.push(nuevaFoto);
+        // Guardar en MongoDB
+        const fotoGuardada = await nuevaFoto.save();
+
+        console.log('📸 Foto guardada en MongoDB:', fotoGuardada._id);
 
         res.json({
-            mensaje: '¡Foto subida exitosamente!',
-            foto: nuevaFoto
+            mensaje: '¡Foto subida y guardada en MongoDB!',
+            foto: {
+                id: fotoGuardada._id,
+                nombre: fotoGuardada.nombre,
+                nombreOriginal: fotoGuardada.nombreOriginal,
+                url: fotoGuardada.url,
+                tamaño: fotoGuardada.tamaño,
+                fechaSubida: fotoGuardada.fechaSubida,
+                descripcion: fotoGuardada.descripcion
+            }
         });
 
     } catch (error) {
+        console.error('❌ Error al guardar foto:', error);
         res.status(500).json({
             error: 'Error al subir la foto: ' + error.message
         });
     }
 });
 
-// 8. ENDPOINT ACTUALIZADO: VER TODAS LAS FOTOS
-app.get('/api/fotos', (req, res) => {
-    res.json({
-        mensaje: `Tienes ${fotos.length} foto(s) subida(s)`,
-        fotos: fotos
-    });
-});
+// 11. ENDPOINT ACTUALIZADO: VER TODAS LAS FOTOS DESDE MONGODB
+app.get('/api/fotos', async (req, res) => {
+    try {
+        // Buscar todas las fotos en MongoDB
+        const fotos = await Photo.find().sort({ fechaSubida: -1 }); // Más recientes primero
 
-// 9. NUEVO ENDPOINT: VER UNA FOTO ESPECÍFICA
-app.get('/api/fotos/:id', (req, res) => {
-    const id = parseInt(req.params.id);
-    const foto = fotos.find(f => f.id === id);
+        console.log(`📱 Enviando ${fotos.length} fotos desde MongoDB`);
 
-    if (!foto) {
-        return res.status(404).json({
-            error: 'Foto no encontrada'
+        res.json({
+            mensaje: `Tienes ${fotos.length} foto(s) en la base de datos`,
+            fotos: fotos.map(foto => ({
+                id: foto._id.toString(),
+                nombre: foto.nombre,
+                nombreOriginal: foto.nombreOriginal,
+                url: foto.url,
+                tamaño: foto.tamaño,
+                fechaSubida: foto.fechaSubida,
+                descripcion: foto.descripcion
+            }))
+        });
+
+    } catch (error) {
+        console.error('❌ Error al obtener fotos:', error);
+        res.status(500).json({
+            error: 'Error al obtener las fotos: ' + error.message
         });
     }
-
-    res.json(foto);
 });
 
-// 10. CONFIGURAR EL PUERTO
-const PORT = 3000;
+// 12. ENDPOINT ACTUALIZADO: VER UNA FOTO ESPECÍFICA
+app.get('/api/fotos/:id', async (req, res) => {
+    try {
+        const foto = await Photo.findById(req.params.id);
 
-// 11. INICIAR EL SERVIDOR
+        if (!foto) {
+            return res.status(404).json({
+                error: 'Foto no encontrada'
+            });
+        }
+
+        res.json({
+            id: foto._id,
+            nombre: foto.nombre,
+            nombreOriginal: foto.nombreOriginal,
+            url: foto.url,
+            tamaño: foto.tamaño,
+            fechaSubida: foto.fechaSubida,
+            descripcion: foto.descripcion
+        });
+
+    } catch (error) {
+        console.error('❌ Error al obtener foto:', error);
+        res.status(500).json({
+            error: 'Error al obtener la foto: ' + error.message
+        });
+    }
+});
+
+// NUEVO ENDPOINT: ELIMINAR FOTO
+app.delete('/api/fotos/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Buscar la foto antes de eliminarla para obtener la ruta del archivo
+        const foto = await Photo.findById(id);
+
+        if (!foto) {
+            return res.status(404).json({
+                error: 'Foto no encontrada'
+            });
+        }
+
+        // Eliminar archivo físico del servidor
+        const fs = require('fs');
+        const filePath = foto.ruta;
+
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+            console.log(`🗑️ Archivo eliminado: ${filePath}`);
+        }
+
+        // Eliminar registro de MongoDB
+        await Photo.findByIdAndDelete(id);
+
+        console.log(`✅ Foto eliminada de MongoDB: ${id}`);
+
+        res.json({
+            mensaje: 'Foto eliminada exitosamente',
+            fotoEliminada: {
+                id: foto._id,
+                nombre: foto.nombre,
+                descripcion: foto.descripcion
+            }
+        });
+
+    } catch (error) {
+        console.error('❌ Error al eliminar foto:', error);
+        res.status(500).json({
+            error: 'Error al eliminar la foto: ' + error.message
+        });
+    }
+});
+
+// 13. CONFIGURAR EL PUERTO
+const PORT = process.env.PORT || 3000;
+
+// 14. INICIAR EL SERVIDOR
 app.listen(PORT, () => {
     console.log(`🚀 Servidor Instagram corriendo en http://localhost:${PORT}`);
+    console.log(`💾 Base de datos: MongoDB Atlas`);
     console.log(`📸 Subir fotos: POST http://localhost:${PORT}/api/fotos`);
     console.log(`👀 Ver fotos: GET http://localhost:${PORT}/api/fotos`);
     console.log(`🖼️  Ver archivos: http://localhost:${PORT}/uploads/`);

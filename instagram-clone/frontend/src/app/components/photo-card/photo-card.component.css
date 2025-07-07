@@ -1,0 +1,184 @@
+/* src/app/components/photo-card/photo-card.component.css */
+
+/* ✅ CARD CON ALTURA TOTAL FIJA */
+.photo-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+  height: 600px; /* ✅ ALTURA TOTAL FIJA PARA TODA LA CARD */
+  display: flex;
+  flex-direction: column;
+}
+
+.photo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Header de la tarjeta - ALTURA FIJA */
+.card-header {
+  background: white;
+  border-bottom: 1px solid #efefef;
+  padding: 16px;
+  height: 70px; /* ✅ Altura fija */
+  display: flex;
+  align-items: center;
+  flex-shrink: 0; /* ✅ No se encoge */
+}
+
+.card-header i {
+  font-size: 24px;
+  color: #262626;
+}
+
+/* Contenedor de imagen - ALTURA FIJA */
+.photo-container {
+  position: relative;
+  width: 100%;
+  height: 350px; /* ✅ Altura fija para imagen */
+  overflow: hidden;
+  background: #f8f9fa;
+  flex-shrink: 0; /* ✅ No se encoge */
+}
+
+.photo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+
+.photo-card:hover .photo-image {
+  transform: scale(1.05);
+}
+
+/* ✅ CUERPO DE LA CARD - ALTURA FIJA Y FLEXIBLE */
+.card-body {
+  padding: 16px;
+  height: 180px; /* ✅ Altura fija restante (600 - 70 - 350 = 180px) */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0; /* ✅ No se encoge */
+  overflow: hidden; /* ✅ Evita desbordamiento */
+}
+
+/* Botones de acción */
+.actions {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-shrink: 0; /* ✅ Tamaño fijo */
+}
+
+.actions .btn-link {
+  color: #262626;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.actions .btn-link:hover {
+  color: #0095f6;
+  transform: scale(1.1);
+}
+
+.actions .btn-link:focus {
+  box-shadow: none;
+}
+
+/* ✅ DESCRIPCIÓN CON CONTROL ESTRICTO DE ALTURA */
+.photo-description {
+  color: #262626;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  height: 80px; /* ✅ Altura fija */
+  overflow: hidden;
+
+  /* ✅ Texto truncado elegante */
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2; /* Máximo 4 líneas */
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+
+/* ✅ INFORMACIÓN TÉCNICA - POSICIÓN FIJA */
+.photo-info {
+  border-top: 1px solid #efefef;
+  padding-top: 8px;
+  height: 40px; /* ✅ Altura fija */
+  display: flex;
+  align-items: center;
+  flex-shrink: 0; /* ✅ Tamaño fijo */
+}
+
+.photo-info small {
+  display: flex;
+  align-items: center;
+  color: #8e8e8e;
+  white-space: nowrap; /* ✅ Una sola línea */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ✅ RESPONSIVE CON ALTURAS PROPORCIONALES */
+@media (max-width: 768px) {
+  .photo-card {
+    height: 500px; /* Altura menor en tablets */
+  }
+
+  .photo-container {
+    height: 280px;
+  }
+
+  .card-body {
+    height: 150px; /* Ajustar altura restante */
+  }
+
+  .photo-description {
+    height: 60px;
+    -webkit-line-clamp: 3;
+  }
+}
+
+@media (max-width: 480px) {
+  .photo-card {
+    height: 450px; /* Altura menor en móviles */
+  }
+
+  .photo-container {
+    height: 250px;
+  }
+
+  .card-header {
+    height: 60px;
+    padding: 12px;
+  }
+
+  .card-body {
+    height: 140px;
+    padding: 12px;
+  }
+
+  .photo-description {
+    height: 50px;
+    -webkit-line-clamp: 2;
+  }
+}
+
+/* Animación de carga */
+.photo-image {
+  opacity: 0;
+  animation: fadeInImage 0.5s ease forwards;
+}
+
+@keyframes fadeInImage {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Efecto de like */
+.btn-link.liked {
+  color: #ed4956 !important;
+}
