@@ -1,0 +1,53 @@
+<!-- src/app/components/upload-photo/upload-photo.component.html -->
+
+<div class="upload-container">
+    <div class="instagram-card p-4">
+        <h3 class="mb-3">
+            <i class="bi bi-cloud-upload me-2"></i>
+            Subir Nueva Foto
+        </h3>
+
+        <!-- Formulario -->
+        <form (ngSubmit)="onSubmit()" #uploadForm="ngForm">
+
+            <!-- Selector de archivo -->
+            <div class="mb-3">
+                <label for="photoFile" class="form-label">Seleccionar foto:</label>
+                <input type="file" class="form-control" id="photoFile" accept="image/*" (change)="onFileSelected($event)" required>
+            </div>
+
+            <!-- Descripción -->
+            <div class="mb-3">
+                <label for="description" class="form-label">Descripción:</label>
+                <textarea class="form-control" id="description" [(ngModel)]="description" name="description" rows="3" placeholder="Escribe algo sobre tu foto..."></textarea>
+            </div>
+
+            <!-- Vista previa -->
+            <div *ngIf="previewUrl" class="mb-3">
+                <label class="form-label">Vista previa:</label>
+                <div class="preview-container">
+                    <img [src]="previewUrl" alt="Vista previa" class="img-preview">
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary" [disabled]="!selectedFile || uploading">
+                    <span *ngIf="uploading" class="spinner-border spinner-border-sm me-2"></span>
+                    {{ uploading ? 'Subiendo...' : 'Subir Foto' }}
+                </button>
+
+                <button type="button" class="btn btn-secondary" (click)="resetForm()">
+                    Cancelar
+                </button>
+            </div>
+
+        </form>
+
+        <!-- Mensaje de resultado -->
+        <div *ngIf="message" class="alert mt-3" [class.alert-success]="isSuccess" [class.alert-danger]="!isSuccess">
+            {{ message }}
+        </div>
+
+    </div>
+</div>

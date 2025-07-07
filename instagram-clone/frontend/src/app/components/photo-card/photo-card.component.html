@@ -1,0 +1,59 @@
+<!-- src/app/components/photo-card/photo-card.component.html -->
+
+<div class="photo-card instagram-card">
+
+  <!-- Header de la tarjeta -->
+  <div class="card-header">
+    <div class="d-flex align-items-center">
+      <i class="bi bi-person-circle me-2"></i>
+      <span class="fw-bold">Tú</span>
+      <small class="text-muted ms-auto">{{ getFormattedDate() }}</small>
+    </div>
+  </div>
+
+  <!-- Imagen principal -->
+  <div class="photo-container">
+    <img [src]="photo.url" [alt]="photo.descripcion" class="photo-image">
+  </div>
+
+  <!-- Contenido de la tarjeta -->
+  <div class="card-body">
+
+    <!-- Reemplazar la sección de botones de acción -->
+<div class="actions mb-2">
+  <button class="btn btn-link p-0 me-3">
+    <i class="bi bi-heart fs-5"></i>
+  </button>
+  <button class="btn btn-link p-0 me-3">
+    <i class="bi bi-chat fs-5"></i>
+  </button>
+  <button class="btn btn-link p-0 me-3">
+    <i class="bi bi-share fs-5"></i>
+  </button>
+
+  <!-- NUEVO: Botón eliminar -->
+  <button class="btn btn-link p-0 text-danger ms-auto"
+          (click)="deletePhoto()"
+          [disabled]="deleting">
+    <span *ngIf="deleting" class="spinner-border spinner-border-sm me-1"></span>
+    <i class="bi bi-trash fs-5"></i>
+  </button>
+</div>
+
+    <!-- Descripción -->
+    <div class="photo-description">
+      <span class="fw-bold me-2">Tú</span>
+      {{ photo.descripcion }}
+    </div>
+
+    <!-- Información técnica -->
+    <div class="photo-info mt-2">
+      <small class="text-muted">
+        <i class="bi bi-file-earmark me-1"></i>
+        {{ photo.nombreOriginal }} • {{ getFormattedSize() }}
+      </small>
+    </div>
+
+  </div>
+
+</div>

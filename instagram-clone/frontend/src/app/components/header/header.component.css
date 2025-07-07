@@ -1,0 +1,9 @@
+.navbar-brand {
+  font-size: 1.5rem;
+  color: #262626 !important;
+}
+
+.btn-primary {
+  background-color: #0095f6;
+  border-color: #0095f6;
+}

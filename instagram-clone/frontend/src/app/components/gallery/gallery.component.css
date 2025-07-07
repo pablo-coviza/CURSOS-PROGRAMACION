@@ -1,0 +1,84 @@
+/* src/app/components/gallery/gallery.component.css */
+
+.gallery-container {
+  max-width: 935px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+/* Header de la galería */
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.gallery-header h2 {
+  color: #262626;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* ✅ GRID MEJORADO - Cards uniformes */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* ✅ Tamaño mínimo más grande */
+  gap: 24px;
+  padding: 0;
+  align-items: start; /* ✅ CLAVE: Alinear al inicio para evitar estiramientos */
+}
+
+/* ✅ RESPONSIVE MEJORADO */
+@media (max-width: 768px) {
+  .photo-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .gallery-container {
+    padding: 15px;
+  }
+
+  .gallery-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .photo-grid {
+    grid-template-columns: 1fr; /* Una sola columna en móviles pequeños */
+    gap: 16px;
+  }
+}
+
+/* Resto del CSS sin cambios */
+.empty-state {
+  background: white;
+  border: 1px solid #dbdbdb;
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+}
+
+.empty-state i {
+  color: #c7c7c7;
+}
+
+.spinner-border {
+  color: #0095f6;
+}
+
+.btn-outline-primary {
+  border-color: #0095f6;
+  color: #0095f6;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0095f6;
+  border-color: #0095f6;
+}
